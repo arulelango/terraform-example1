@@ -1,0 +1,1 @@
+stepfunction-arn=arn:aws:states:eu-west-2:266283146648:stateMachine:my-step-function
