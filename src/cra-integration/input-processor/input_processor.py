@@ -5,27 +5,27 @@ import uuid
 
 print('Loading function')
 
-# s3 = boto3.client('s3')
+s3 = boto3.client('s3')
 client = boto3.client('stepfunctions')
 
 def lambda_handler(event, context):
     #1 - Get the bucket name
-    # bucket = event['Records'][0]['s3']['bucket']['name']
+    bucket = event['Records'][0]['s3']['bucket']['name']
 
     #2 - Get the file/key name
-    # key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'], encoding='utf-8')
-    # print("FileName :"+key)
+    key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'], encoding='utf-8')
+    print("FileName :"+key)
     
     try:
         #3 - Fetch the file from S3
-        # response = s3.get_object(Bucket=bucket, Key=key)
+        response = s3.get_object(Bucket=bucket, Key=key)
 
         #4 - Deserialize the file's content
-        # text = response["Body"].read().decode()
-        # data = json.loads(text)
+        text = response["Body"].read().decode()
+        data = json.loads(text)
 
         #5 - Print the content
-        # print(data)
+        print(data)
 
         # Invoke the step function
 

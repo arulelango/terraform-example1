@@ -1,3 +1,3 @@
 output "stepfunction_arn" {
-  value = "${module.step_function.stepfunction_arn}"
+  value = "${module.main-mod.stepfunction_arn}"
 }
