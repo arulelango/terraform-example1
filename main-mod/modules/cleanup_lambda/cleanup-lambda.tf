@@ -1,6 +1,6 @@
 
 resource "aws_iam_role" "iam_for_cleanup_lambda" {
-  name = "iam_for_cleanup_lambda"
+  name = "${var.env_name}_iam_for_cleanup_lambda"
 
   assume_role_policy = <<EOF
 {
@@ -26,7 +26,7 @@ data "archive_file" "archive" {
 
 resource "aws_lambda_function" "cleanup" {
   filename      = "${var.cleanup_lambda_archive_name}.zip"
-  function_name = "cleanup_func_lambda"
+  function_name = "${var.env_name}-cleanup-lambda"
   description   = "Lambda that crates a db record"
   role          = aws_iam_role.iam_for_cleanup_lambda.arn
   handler       = "cleanup_processor.lambda_handler"

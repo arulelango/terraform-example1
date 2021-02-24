@@ -1,6 +1,6 @@
 
 resource "aws_iam_role" "iam_for_cra_gbg_lambda" {
-  name = "iam_for_cra_gbg_lambda"
+  name = "${var.env_name}_iam_for_cra_gbg_lambda"
 
   assume_role_policy = <<EOF
 {
@@ -26,7 +26,7 @@ data "archive_file" "archive" {
 
 resource "aws_lambda_function" "cra_gbg_entry" {
   filename      = "${var.cra_gbg_lambda_archive_name}.zip"
-  function_name = "cra_gbg_func_lambda"
+  function_name = "${var.env_name}-gbg-lambda"
   description   = "Lambda that crates a db record"
   role          = aws_iam_role.iam_for_cra_gbg_lambda.arn
   handler       = "gbg_processor.lambda_handler"

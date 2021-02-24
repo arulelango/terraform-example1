@@ -1,6 +1,6 @@
 
 resource "aws_iam_role" "iam_for_db_lambda" {
-  name = "iam_for_db_lambda"
+  name = "${var.env_name}_iam_for_db_lambda"
 
   assume_role_policy = <<EOF
 {
@@ -26,7 +26,7 @@ data "archive_file" "archive" {
 
 resource "aws_lambda_function" "db_entry" {
   filename      = "${var.db_lambda_archive_name}.zip"
-  function_name = "entry_record_db_lambda"
+  function_name = "${var.env_name}-entry-record-db-lambda"
   description   = "Lambda that crates a db record"
   role          = aws_iam_role.iam_for_db_lambda.arn
   handler       = "db_processor.lambda_handler"

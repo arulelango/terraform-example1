@@ -1,3 +1,6 @@
+variable "env_name" {
+  type=string
+}
 variable "db_lambda_source_dir" {
   type = string
   default = "./../src/cra-integration/db-integration/"

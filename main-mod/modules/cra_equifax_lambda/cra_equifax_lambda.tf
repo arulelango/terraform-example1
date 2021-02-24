@@ -1,6 +1,6 @@
 
 resource "aws_iam_role" "iam_for_equifax_lambda" {
-  name = "iam_for_equifax_lambda"
+  name = "${var.env_name}_iam_for_equifax_lambda"
 
   assume_role_policy = <<EOF
 {
@@ -26,7 +26,7 @@ data "archive_file" "archive" {
 
 resource "aws_lambda_function" "cra_equifax" {
   filename      = "${var.cra_equifax_lambda_archive_name}.zip"
-  function_name = "cra_equifax_func_lambda"
+  function_name = "${var.env_name}-equifax-lambda"
   description   = "Lambda that crates a db record"
   role          = aws_iam_role.iam_for_equifax_lambda.arn
   handler       = "equifax_processor.lambda_handler"

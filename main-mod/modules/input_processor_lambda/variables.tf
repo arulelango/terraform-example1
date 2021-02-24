@@ -1,3 +1,6 @@
+variable "env_name" {
+  type=string
+}
 variable "s3_input_bucket_arn" {
   type = string
 }

@@ -1,6 +1,6 @@
 
 resource "aws_iam_role" "iam_for_input_processor_lambda" {
-  name = "iam_for_input_processor_lambda"
+  name = "${var.env_name}_iam_for_input_processor_lambda"
 
   assume_role_policy = <<EOF
 {
@@ -35,7 +35,7 @@ data "archive_file" "archive" {
 
 resource "aws_lambda_function" "input_processor" {
   filename      = "${var.input_processor_archive_name}.zip"
-  function_name = "input-processor"
+  function_name = "${var.env_name}-input-processor-lambda"
   description   = "My simple lambda function"
   role          = aws_iam_role.iam_for_input_processor_lambda.arn
   handler       = "input_processor.lambda_handler"

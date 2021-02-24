@@ -2,6 +2,7 @@ import json
 import urllib.parse
 import boto3
 import uuid
+from configparser import ConfigParser
 
 print('Loading function')
 
@@ -11,12 +12,28 @@ client = boto3.client('stepfunctions')
 def lambda_handler(event, context):
     #1 - Get the bucket name
     bucket = event['Records'][0]['s3']['bucket']['name']
+    print("Bucket Name:"+bucket)
+
+    # Get the env
+    mylist = bucket.split("-")
+    env = mylist[1]
+    print(env)
 
     #2 - Get the file/key name
     key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'], encoding='utf-8')
     print("FileName :"+key)
     
     try:
+
+        # region
+        region = boto3.session.Session().region_name
+        print("Region:"+region)
+
+        # account id
+        account_id = boto3.client("sts").get_caller_identity()["Account"]
+        print("Account Id:"+account_id)
+        step_function_arn = f"arn:aws:states:{region}:{account_id}:stateMachine:{env}-step-function"
+
         #3 - Fetch the file from S3
         response = s3.get_object(Bucket=bucket, Key=key)
 
@@ -34,7 +51,7 @@ def lambda_handler(event, context):
 
         print('Calling step function...')
         client.start_execution(
-            stateMachineArn = 'arn:aws:states:eu-west-2:266283146648:stateMachine:my-step-function',
+            stateMachineArn = step_function_arn,
             name = transactionId,
             input = json.dumps(data)
         )

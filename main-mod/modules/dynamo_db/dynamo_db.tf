@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "dynamo-table" {
-  name         = "${var.db_name}"
+  name         = "${var.env_name}-${var.db_name}"
   billing_mode = "PAY_PER_REQUEST"
   hash_key = "name"
   attribute {
