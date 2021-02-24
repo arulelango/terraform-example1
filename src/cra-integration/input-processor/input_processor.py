@@ -2,7 +2,6 @@ import json
 import urllib.parse
 import boto3
 import uuid
-from configparser import ConfigParser
 
 print('Loading function')
 
@@ -62,7 +61,4 @@ def lambda_handler(event, context):
     except Exception as e:
         print(e)
         raise e
-
-# def lambda_handler(event, context):
-#     print("Hello from Python")
 

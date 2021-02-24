@@ -33,10 +33,6 @@ module "step_function" {
 EOF
 
   service_integrations = {
-    # dynamodb = {
-    #   dynamodb = ["arn:aws:dynamodb:eu-west-1:052212379155:table/Test"]
-    # }
-
     lambda = {
       lambda = ["${var.db_lambda_arn}", "${var.equifax_lambda_arn}", "${var.gbg_lambda_arn}", "${var.cleanup_lambda_arn}"]
     }
@@ -47,14 +43,4 @@ EOF
   tags = {
     Module = "my"
   }
-}
-
-resource "null_resource" "ConfigureAnsibleLabelVariable" {
-  provisioner "local-exec" {
-    command = "( echo [DEFAULT]; echo  ${var.env_name}-stepfunction-arn=${module.step_function.this_state_machine_arn} ) > ./../src/cra-integration/input-processor/${var.env_name}-config.txt"
-  }
-
-  # provisioner "local-exec" {
-  #   command = "echo  ${var.env_name}-stepfunction-arn=${module.step_function.this_state_machine_arn} > ./../src/cra-integration/input-processor/config.txt"
-  # }
 }
